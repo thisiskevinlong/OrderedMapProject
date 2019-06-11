@@ -1,5 +1,6 @@
 #ifndef _ORDERED_MAP_
 #define _ORDERED_MAP_
+#include <algorithm>
 #include <list>
 #include <vector>
 
@@ -17,8 +18,14 @@ public:
 	{
 		if (keys.empty())
 		{
-			vector<K> emptyVector(0);
+			std::vector<K> emptyVector;
 			return emptyVector;
+		}
+		else
+		{
+			std::vector<K> keyVector(keys.size());
+			std::copy(keys.begin(), keys.end(), keyVector.begin());
+			return keyVector;
 		}
 	}
 	bool isEmpty() {}
