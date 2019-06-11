@@ -1,5 +1,6 @@
 #ifndef _ORDERED_MAP_
 #define _ORDERED_MAP_
+#include <algorithm>
 #include <list>
 #include <vector>
 #include "HashMap.h"
@@ -14,15 +15,27 @@ public:
 	bool containsKey(K key) {}
 	bool containsValue(V value) {}
 	V get(K key) {}
+
 	std::vector<K> getKeys()
 	{
 		if (keys.empty())
 		{
-			vector<K> emptyVector(0);
+			std::vector<K> emptyVector;
 			return emptyVector;
 		}
+		else
+		{
+			std::vector<K> keyVector(keys.size());
+			std::copy(keys.begin(), keys.end(), keyVector.begin());
+			return keyVector;
+		}
 	}
-	bool isEmpty() {}
+
+	bool isEmpty()
+	{
+		return keys.empty();
+	}
+
 	void put(K key, V value) {}
 	V remove(K key) {}
 };
