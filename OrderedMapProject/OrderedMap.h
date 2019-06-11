@@ -2,6 +2,7 @@
 #define _ORDERED_MAP_
 #include <list>
 #include <vector>
+#include "HashMap.h"
 
 template <class K, class V>
 class OrderedMap
