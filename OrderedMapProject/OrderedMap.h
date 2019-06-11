@@ -14,6 +14,7 @@ public:
 	bool containsKey(K key) {}
 	bool containsValue(V value) {}
 	V get(K key) {}
+
 	std::vector<K> getKeys()
 	{
 		if (keys.empty())
@@ -28,7 +29,12 @@ public:
 			return keyVector;
 		}
 	}
-	bool isEmpty() {}
+
+	bool isEmpty()
+	{
+		return keys.empty();
+	}
+
 	void put(K key, V value) {}
 	V remove(K key) {}
 };
