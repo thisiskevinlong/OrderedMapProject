@@ -13,11 +13,12 @@ public:
 	bool containsKey(K key) {}
 	bool containsValue(V value) {}
 	V get(K key) {}
-	std::vector getKeys()
+	std::vector<K> getKeys()
 	{
 		if (keys.empty())
 		{
-			return
+			vector<K> emptyVector(0);
+			return emptyVector;
 		}
 	}
 	bool isEmpty() {}
