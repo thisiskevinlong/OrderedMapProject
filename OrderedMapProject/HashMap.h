@@ -7,7 +7,7 @@ template <class V>
 class HashMap
 {
 private:
-	std::vector<AVLtree<V>*> *trees;
+	std::vector<AVLtree<V>*> trees;
 	int capacity;
 	int count;
 public:
@@ -24,7 +24,7 @@ public:
 		this->count = 0;
 		for (int i = 0; i < this->capacity; i++)
 		{
-			this->trees->push_back(&AVLtree<V>());
+			this->trees.push_back(new AVLtree<V>());
 		}
 		//trees = malloc(sizeof(AVLtree<V>*) * this->capacity);
 	}
@@ -40,12 +40,12 @@ public:
 		//Removes all the nodes from each index
 		for (int i = 0; i < this->capacity; i++)
 		{
-			AVLtree<V>* temp = this->trees->at(i);
+			AVLtree<V>* temp = this->trees.at(i);
 			temp->clear(temp->root);
 			//calls destructor of AVLtree
 			delete (&(this->trees[i]));
 		}
-		delete(trees);
+		delete(&trees);
 	}
 
 	/*
@@ -124,10 +124,11 @@ public:
 		//if the hash map alredy has the value, delete it first
 		if (contains)
 		{
-			AVLtree<V>* temp = this->trees->at(hash(key, this->capacity));
+			AVLtree<V>* temp = this->trees.at(hash(key, this->capacity));
 			temp->deleteKey(value);
 		}
-		this->trees->at(hash(key, this->capacity))->insertValue(value);
+		this->trees.at(hash(key, this->capacity))->insertValue(value);
+		this->count++;
 	}
 
 	/*

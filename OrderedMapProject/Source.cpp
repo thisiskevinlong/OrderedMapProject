@@ -9,6 +9,7 @@ int main()
 	OrderedMap<string> map;
 	map.put(1, "Hello");
 	
+	
 	//end
 	getchar();
 }
