@@ -4,13 +4,14 @@
 #include <list>
 #include <vector>
 #include "HashMap.h"
+#include "AVLTree.h"
 
 template <class V>
 class OrderedMap
 {
 private:
 	HashMap map;
-	std::list<K> keys;
+	std::list<unsigned long> keys;
 public:
 
 	/*
@@ -51,7 +52,7 @@ public:
 	 */
 	bool containsValue(V value) 
 	{
-		
+		return contains(map, value);
 	}
 
 	/*
@@ -65,14 +66,9 @@ public:
 	 */
 	V get(unsigned long key) 
 	{
-		try
-		{
 
-		}
-		catch ()
-		{
+		return get(map, key);
 
-		}
 	}
 
 	/*
@@ -120,7 +116,10 @@ public:
 	 */
 	void put(unsigned long key, V value) 
 	{
-		
+		bool contains = containsKey();
+		insert(map, key, value, contains);
+		auto index = find(keys.begin(), keys.end(), key) != keys.end();
+		keys
 	}
 
 	/*

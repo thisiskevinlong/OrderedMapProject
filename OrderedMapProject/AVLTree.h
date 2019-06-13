@@ -27,10 +27,11 @@ class AVLtree {
 public:
 	AVLtree(void);
 	~AVLtree(void);
-	bool insert(T key);
+	bool insertValue(T key);
 	void deleteKey(const T key);
 	void printBalance();
 	void clear(AVLnode<T>* node);
+	T* search(AVLnode<T>* node, T value);
 private:
 	AVLnode<T>* root;
 	AVLnode<T>* rotateLeft(AVLnode<T>* a);
@@ -163,7 +164,7 @@ AVLtree<T>::~AVLtree(void) {
 }
 
 template <class T>
-bool AVLtree<T>::insert(T key) {
+bool AVLtree<T>::insertValue(T key) {
 	if (root == NULL) {
 		root = new AVLnode<T>(key, NULL);
 	}
@@ -254,6 +255,34 @@ void AVLtree<T>::clear(AVLnode<T>* node)
 	clear(node->left);
 	clear(node->right);
 	free(node);
+}
+
+/*
+* Function: recursiveContains
+* Description: Checks if the given value exists in the given BST.
+* Input:
+*     node - current node
+*     value - the value to search for
+* Output:
+*     bool - Return true if it's found, false if not
+*/
+template <class T>
+T* AVLtree<T>::search(AVLnode<T>* node, T value)
+{
+	// Base case
+	if (node == NULL)
+		return NULL;
+	// Found value
+	if (node->key == value)
+		return node->key;
+	// Value is greater than node's value
+	if (node->key < value)
+		return recursiveContains(node->right, value);
+	// Value is smaller than node's value
+	else if (node->key > value)
+		return recursiveContains(node->left, value);
+	// Not found value
+	return NULL;
 }
 
 #endif
