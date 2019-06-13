@@ -7,10 +7,27 @@ template <class V>
 class HashMap
 {
 private:
-	AVLtree** trees;
+	std::vector<AVLtree<V>*> *trees;
 	int capacity;
 	int count;
 public:
+
+	/*
+	 * Function: constructor
+	 * Description: Initializes the map to an array of AVLtree objects.
+	 * Output:
+	 *     HashMap* - pointer to the newly created HashMap
+	 */
+	HashMap()
+	{
+		this->capacity = 10;
+		this->count = 0;
+		for (int i = 0; i < this->capacity; i++)
+		{
+			this->trees->push_back(&AVLtree<V>());
+		}
+		//trees = malloc(sizeof(AVLtree<V>*) * this->capacity);
+	}
 
 	/*
 	 * Function: initializeHashMap
@@ -18,13 +35,17 @@ public:
 	 * Output:
 	 *     HashMap* - pointer to the newly created HashMap
 	 */
-	HashMap* initializeHashMap()
+	~HashMap()
 	{
-		HashMap* map = malloc(sizeof(HashMap));
-		map->capacity = 10;
-		map->count = 0;
-		map->trees = malloc(sizeof(AVLtree*) * map->capacity);
-		return map;
+		//Removes all the nodes from each index
+		for (int i = 0; i < this->capacity; i++)
+		{
+			AVLtree<V>* temp = this->trees->at(i);
+			temp->clear(temp->root);
+			//calls destructor of AVLtree
+			delete (&(this->trees[i]));
+		}
+		delete(trees);
 	}
 
 	/*
@@ -35,14 +56,15 @@ public:
 	 * Input:
 	 *     HashMap* - pointer to the HashMap
 	 */
-	void clearHashMap(HashMap* map)
+	void clearHashMap()
 	{
 		//Removes all the nodes from each index
-		for (int i = 0; i < map->capacity; i++)
+		for (int i = 0; i < this->capacity; i++)
 		{
-			clear(map->trees[i]->root);
+			AVLtree<V>* temp = this->trees[i];
+			temp->clear();
 		}
-		map->count = 0;
+		this->count = 0;
 	}
 
 	/*
@@ -55,13 +77,14 @@ public:
 	 * Output:
 	 *    bool - 0 if does not contains, 1 if exists
 	 */
-	bool contains(HashMap* map, V value)
+	bool contains(V value)
 	{
 		bool found = false;
 		//Go from start and visit each TreeNode
-		for (int i = 0; i < map->capacity && found; i++)
+		for (int i = 0; i < this->capacity && found; i++)
 		{
-			if (search(map->capacity[i]) != NULL)
+			AVLtree<V>* temp = this->trees[i];
+			if (temp->root != NULL)
 				found = true;
 		}
 		return found;
@@ -77,10 +100,10 @@ public:
 	 * Output:
 	 *    V - the value of the key
 	 */
-	V get(HashMap* map, unsigned long key)
+	V get(unsigned long key)
 	{
-		double hash = hash(key, map->capacity);
-		V* temp = search(map->trees[hash]);
+		double hash = hash(key, this->capacity);
+		V* temp = search(this->trees[hash]);
 		if (temp == NULL)
 			throw std::invalid_argument("No such value");
 		return temp;
@@ -96,15 +119,16 @@ public:
 	 * Output:
 	 *    bool - 0 if does not contains, 1 if exists
 	 */
-	void insert(HashMap* map, int key, V value, bool contains)
+	void insert(unsigned long key, V value, bool contains)
 	{
+		//if the hash map alredy has the value, delete it first
 		if (contains)
-			deleteKey(map->trees[hash(key)]);
-		map->trees[hash(key)]->insertValue(value);
+		{
+			AVLtree<V>* temp = this->trees->at(hash(key, this->capacity));
+			temp->deleteKey(value);
+		}
+		this->trees->at(hash(key, this->capacity))->insertValue(value);
 	}
-
-	bool delete(HashMap* map, char key[]);
-
 
 	/*
 	 * Function: hash
@@ -130,17 +154,21 @@ public:
 	 * Output:
 	 *	   double - the amount out of 1 that the map is filled
 	 */
-	double loadFactor(HashMap* map)
+	double loadFactor()
 	{
 		int used = 0;
-		for (int i = 0; i < map->capacity; i++)
+		for (int i = 0; i < this->capacity; i++)
 		{
-			if (map->trees[i]->root != NULL)
+			if (this->trees[i]->root != NULL)
 				used++;
 		}
-		return (double)used / map->capacity;
+		return (double)used / this->capacity;
+	}
+
+	V remove(unsigned long key)
+	{
+		deleteKey(this->trees[hash(key)]);
 	}
 };
-
 
 #endif // !

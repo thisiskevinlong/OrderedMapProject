@@ -10,7 +10,7 @@ template <class V>
 class OrderedMap
 {
 private:
-	HashMap map;
+	HashMap<V> map;
 	std::list<unsigned long> keys;
 public:
 
@@ -52,7 +52,7 @@ public:
 	 */
 	bool containsValue(V value) 
 	{
-		return contains(map, value);
+		return map.contains(value);
 	}
 
 	/*
@@ -66,9 +66,7 @@ public:
 	 */
 	V get(unsigned long key) 
 	{
-
-		return get(map, key);
-
+		return map.get(key);
 	}
 
 	/*
@@ -116,10 +114,11 @@ public:
 	 */
 	void put(unsigned long key, V value) 
 	{
-		bool contains = containsKey();
-		insert(map, key, value, contains);
-		auto index = find(keys.begin(), keys.end(), key) != keys.end();
-		keys
+		bool contains = containsKey(key);
+		map.insert(key, value, contains);
+		//if key is not in the list
+		if (!contains)
+			keys.push_back(key);
 	}
 
 	/*
@@ -132,9 +131,14 @@ public:
 	 * Output:
 	 *    V - the value of the key
 	 */
-	V remove(K key) 
+	V remove(unsigned long key) 
 	{
-		
+		bool contains = map.containsKey(key);
+		if (!contains)
+			throw std::invalid_argument("No such Key exists");
+		map.remove(key);
+		//remove key from list
+		std::list(keys.begin(), keys.end(), key, keys.end());
 	}
 };
 

@@ -24,16 +24,7 @@ public:
 /* AVL tree */
 template <class T>
 class AVLtree {
-public:
-	AVLtree(void);
-	~AVLtree(void);
-	bool insertValue(T key);
-	void deleteKey(const T key);
-	void printBalance();
-	void clear(AVLnode<T>* node);
-	T* search(AVLnode<T>* node, T value);
 private:
-	AVLnode<T>* root;
 	AVLnode<T>* rotateLeft(AVLnode<T>* a);
 	AVLnode<T>* rotateRight(AVLnode<T>* a);
 	AVLnode<T>* rotateLeftThenRight(AVLnode<T>* n);
@@ -42,7 +33,17 @@ private:
 	int height(AVLnode<T>* n);
 	void setBalance(AVLnode<T>* n);
 	void printBalance(AVLnode<T>* n);
+public:
+	AVLnode<T>* root;
+	AVLtree(void);
+	~AVLtree(void);
+	bool insertValue(T key);
+	void deleteKey(const T key);
+	void printBalance();
+	void clear(AVLnode<T>* node);
+	T* search(AVLnode<T>* node, T value);
 };
+
 
 /* AVL class definition */
 template <class T>
