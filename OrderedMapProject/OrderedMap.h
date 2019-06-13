@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <list>
 #include <vector>
+#include "HashMap.h"
 
 template <class K, class V>
 class OrderedMap
