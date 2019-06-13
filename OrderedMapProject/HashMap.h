@@ -6,7 +6,7 @@ template <class K, class V>
 class HashMap
 {
 private:
-	Node** trees;
+	AVLtree** trees;
 	int capacity;
 	int count;
 public:
@@ -15,24 +15,23 @@ public:
 		HashMap* map = malloc(sizeof(HashMap));
 		map->capacity = 100;
 		map->count = 0;
-		map->trees = malloc(sizeof(Node*) * map->capacity);
-		for (int i = 0; i < map->capacity; i++)
-			map->trees[i] = NULL;
+		map->trees = malloc(sizeof(AVLtree*) * map->capacity);
+		//for (int i = 0; i < map->capacity; i++)
+		//	map->trees[i] = AVLtree();
 		return map;
 	}
-	void deleteHashMap()
+
+	void clearHashMap(HashMap* map, std::list<K> keys)
 	{
-		Node* curr;
-		Node* prev;
+		//Removes all the 
 		for (int i = 0; i < map->capacity; i++)
 		{
-			if (map->nodes[i] != NULL)
-			{
-				delete(map->trees[i]);
-			}
+			clear(map->trees[i]->root);
 		}
-		free(map);
+		//Clears all the keys from the list
+		keys.clear();
 	}
+
 	bool contains(K key)
 	{
 
