@@ -18,4 +18,5 @@ public:
 	bool delete(HashMap* map, char key[]);
 };
 
+
 #endif // !
