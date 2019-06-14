@@ -5,27 +5,39 @@
 #include <vector>
 #include "HashMap.h"
 
-template <class K, class V>
+template <class V>
 class OrderedMap
 {
 private:
-	std::list<K> keys;
+	HashMap hashMap;
+	std::list<int> keys;
 public:
-	void clear() {}
-	bool containsKey(K key) {}
-	bool containsValue(V value) {}
-	V get(K key) {}
+	void clear()
+	{
+		hashMap.clearHashMap();
+		keys.clear();
+	}
 
-	std::vector<K> getKeys()
+	bool containsKey(int key)
+	{
+		return (find(keys.begin(), keys.end()) != keys.end());
+	}
+
+	bool containsValue(V value) {}
+
+
+	V get(int key) {}
+
+	std::vector<int> getKeys()
 	{
 		if (keys.empty())
 		{
-			std::vector<K> emptyVector;
+			std::vector<int> emptyVector;
 			return emptyVector;
 		}
 		else
 		{
-			std::vector<K> keyVector(keys.size());
+			std::vector<int> keyVector(keys.size());
 			std::copy(keys.begin(), keys.end(), keyVector.begin());
 			return keyVector;
 		}
@@ -33,11 +45,11 @@ public:
 
 	bool isEmpty()
 	{
-		return keys.empty();
+		return (keys.empty());
 	}
 
-	void put(K key, V value) {}
-	V remove(K key) {}
+	void put(int key, V value) {}
+	V remove(int key) {}
 };
 
 #endif

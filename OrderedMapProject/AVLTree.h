@@ -31,6 +31,7 @@ public:
 	void deleteKey(const T key);
 	void printBalance();
 	void clear(AVLnode<T>* node);
+	bool contains(AVLnode<T>* node, T value);
 private:
 	AVLnode<T>* root;
 	AVLnode<T>* rotateLeft(AVLnode<T>* a);
@@ -254,6 +255,30 @@ void AVLtree<T>::clear(AVLnode<T>* node)
 	clear(node->left);
 	clear(node->right);
 	free(node);
+}
+
+template <class T>
+bool AVLtree<T>::contains(AVLnode<T>* node, T value)
+{
+	if (node == NULL)
+	{
+		return false;
+	}
+	else
+	{
+		if (node->key == value)
+		{
+			return true;
+		}
+		else if (node->key < value)
+		{
+			return contains(node->right, value);
+		}
+		else if (node->key > value)
+		{
+			return contains(node->left, value);
+		}
+	}
 }
 
 #endif
